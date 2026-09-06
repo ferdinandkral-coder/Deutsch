@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Griechische Sagen — Kapitel zum Hören und Lesen</title>
+<style>
+  :root{
+    --papyrus:#EFE3C6;
+    --papyrus-dark:#E4D3AC;
+    --clay:#B5502C;
+    --clay-dark:#8E3B1F;
+    --glaze:#211C16;
+    --gold:#C9A227;
+    --aegean:#1F4E5F;
+    --olive:#6B7A4F;
+    --line:rgba(33,28,22,0.18);
+    --shadow:0 18px 40px rgba(33,28,22,0.25);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--papyrus);
+    background-image:
+      radial-gradient(ellipse at 20% 0%, rgba(197,163,90,0.16), transparent 55%),
+      radial-gradient(ellipse at 90% 100%, rgba(181,80,44,0.10), transparent 50%);
+    color:var(--glaze);
+    font-family: Georgia, 'Palatino Linotype', 'Iowan Old Style', serif;
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--gold);color:var(--glaze);}
+
+  .meander{
+    height:14px;
+    width:100%;
+    -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='48' height='14'><path d='M0 0h48v6h-6v-3h-3v9h-9v-3h-3v3h-9v-9h-9v3h-3v-9z' fill='black'/></svg>");
+    mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='48' height='14'><path d='M0 0h48v6h-6v-3h-3v9h-9v-3h-3v3h-9v-9h-9v3h-3v-9z' fill='black'/></svg>");
+    -webkit-mask-repeat:repeat-x; mask-repeat:repeat-x;
+    -webkit-mask-size:48px 14px; mask-size:48px 14px;
+    background: var(--glaze);
+    opacity:.85;
+  }
+
+  header.top{
+    padding:38px 24px 20px;
+    text-align:center;
+    position:relative;
+  }
+  .kicker{
+    letter-spacing:.14em;
+    font-size:12.5px;
+    color:var(--clay-dark);
+    margin:0 0 6px;
+  }
+  h1.title{
+    font-family: 'Iowan Old Style', Georgia, serif;
+    font-size:clamp(28px,6vw,46px);
+    margin:0 0 10px;
+    letter-spacing:.01em;
+    color:var(--glaze);
+  }
+  .title em{ font-style:italic; color:var(--clay);}
+  .subtitle{
+    max-width:540px;
+    margin:0 auto;
+    font-size:15px;
+    line-height:1.6;
+    color:#4a4335;
+  }
+
+  main{max-width:980px;margin:0 auto;padding:18px 20px 80px;}
+
+  #home.view{display:block;}
+  .part-label{
+    margin:34px 0 12px;
+    font-size:12.5px;
+    letter-spacing:.08em;
+    color:var(--clay-dark);
+    border-bottom:1px solid var(--line);
+    padding-bottom:6px;
+  }
+  .part-label:first-child{margin-top:14px;}
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(135px,1fr));
+    gap:14px;
+  }
+  .card{
+    background:linear-gradient(160deg, var(--clay) 0%, var(--clay-dark) 100%);
+    border-radius:6px 6px 46% 46%/6px 6px 20% 20%;
+    color:var(--papyrus);
+    padding:0;
+    cursor:pointer;
+    border:none;
+    text-align:left;
+    position:relative;
+    overflow:hidden;
+    box-shadow:0 10px 22px rgba(142,59,31,0.28);
+    transition:transform .22s ease, box-shadow .22s ease;
+    aspect-ratio:3/4;
+    display:flex;
+    flex-direction:column;
+  }
+  .card:hover, .card:focus-visible{
+    transform:translateY(-5px);
+    box-shadow:0 16px 30px rgba(142,59,31,0.38);
+    outline:none;
+  }
+  .card .icon-wrap{
+    flex:1;
+    display:flex;align-items:center;justify-content:center;
+    background:radial-gradient(circle at 50% 38%, rgba(239,227,198,0.14), transparent 65%);
+  }
+  .card svg{width:56%;height:56%;color:var(--papyrus);opacity:.92;}
+  .card .num{
+    position:absolute; top:8px; left:10px;
+    font-size:10.5px; color:rgba(239,227,198,.65); letter-spacing:.06em;
+  }
+  .card .label{
+    padding:8px 10px 12px;
+    font-size:12.5px;
+    line-height:1.22;
+    background:rgba(33,28,22,0.18);
+  }
+  .card .label b{display:block;font-size:13px;font-weight:600;}
+  .card .label span{display:block;font-size:10.5px;opacity:.8;margin-top:2px;font-style:italic;}
+  .card.done::after{
+    content:"";
+    position:absolute; top:8px; right:10px;
+    width:8px;height:8px;border-radius:50%;
+    background:var(--gold);
+    box-shadow:0 0 0 2px rgba(33,28,22,0.25);
+  }
+
+  .toolbar{
+    margin-top:30px;
+    display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:center;
+  }
+  button.pill{
+    font-family:inherit;
+    background:var(--glaze);
+    color:var(--papyrus);
+    border:none;
+    padding:11px 20px;
+    border-radius:30px;
+    font-size:14px;
+    cursor:pointer;
+    display:inline-flex; align-items:center; gap:8px;
+    transition:background .2s ease, transform .15s ease;
+  }
+  button.pill:hover{background:#3a3226;}
+  button.pill:active{transform:scale(.97);}
+  button.pill.ghost{
+    background:transparent;
+    color:var(--glaze);
+    border:1.5px solid var(--line);
+  }
+  button.pill.ghost:hover{background:rgba(33,28,22,0.06);}
+  button.pill.accent{background:var(--clay);}
+  button.pill.accent:hover{background:var(--clay-dark);}
+  button.pill:disabled{opacity:.4;cursor:not-allowed;}
+
+  #reader.view{display:none;}
+  .reader-shell{
+    background:var(--papyrus-dark);
+    border:1px solid var(--line);
+    border-radius:10px;
+    box-shadow:var(--shadow);
+    overflow:hidden;
+  }
+  .reader-hero{
+    background:linear-gradient(160deg, var(--aegean) 0%, #16323d 100%);
+    padding:34px 24px 26px;
+    display:flex;flex-direction:column;align-items:center;
+    text-align:center;
+    color:var(--papyrus);
+    position:relative;
+  }
+  .reader-hero svg{width:100px;height:100px;color:var(--gold);}
+  .reader-hero .eyebrow{font-size:12px;letter-spacing:.12em;color:#cfe3e8;margin-bottom:6px;}
+  .reader-hero h2{margin:6px 0 4px;font-size:clamp(22px,4.4vw,30px);}
+  .reader-hero .sub{font-style:italic;color:#cfe3e8;font-size:14px;}
+
+  .reader-body{padding:26px 28px 30px;}
+  .reader-body p{
+    font-size:16.5px;
+    line-height:1.75;
+    color:#2c2619;
+    max-width:70ch;
+    margin:0 0 16px;
+  }
+  .reader-body p:first-of-type::first-letter{
+    font-size:2.5em;
+    float:left;
+    line-height:.85;
+    padding:4px 8px 0 0;
+    color:var(--clay);
+    font-weight:700;
+  }
+
+  .audio-bar{
+    display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+    padding:14px 28px;
+    background:rgba(33,28,22,0.05);
+    border-top:1px dashed var(--line);
+    border-bottom:1px dashed var(--line);
+  }
+  .audio-bar .status{
+    font-size:12.5px; color:#5c5343; flex:1; min-width:140px;
+  }
+  .progress-track{
+    height:4px;width:100%;background:rgba(33,28,22,0.12);border-radius:4px;overflow:hidden;margin-top:6px;
+  }
+  .progress-fill{height:100%;width:0%;background:var(--clay);transition:width .15s linear;}
+
+  .nav-row{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:18px 28px 26px;
+    gap:10px;flex-wrap:wrap;
+  }
+  .dots{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;max-width:280px;}
+  .dot{width:6px;height:6px;border-radius:50%;background:rgba(33,28,22,0.22);}
+  .dot.active{background:var(--clay);}
+  .dot.done{background:var(--gold);}
+
+  footer{
+    text-align:center;
+    padding:26px 20px 46px;
+    font-size:12px;
+    color:#7a7060;
+    line-height:1.7;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .card, button.pill{transition:none;}
+  }
+
+  .voice-gear{
+    position:absolute; top:14px; right:14px;
+    background:rgba(239,227,198,0.14);
+    border:1px solid rgba(239,227,198,0.35);
+    color:var(--papyrus);
+    width:34px;height:34px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer; font-size:16px;
+  }
+  .voice-gear:hover{background:rgba(239,227,198,0.25);}
+  .settings-panel{
+    display:none;
+    padding:18px 28px;
+    background:rgba(33,28,22,0.05);
+    border-bottom:1px dashed var(--line);
+    font-size:13.5px;
+  }
+  .settings-panel.open{display:block;}
+  .settings-row{
+    display:flex; flex-direction:column; gap:5px;
+    margin-bottom:14px;
+  }
+  .settings-row label{font-weight:600; color:#3a3226; font-size:12.5px;}
+  .settings-row select, .settings-row input[type="text"], .settings-row input[type="password"]{
+    font-family:inherit; font-size:14px;
+    padding:8px 10px; border-radius:6px;
+    border:1px solid var(--line); background:var(--papyrus);
+    color:var(--glaze); width:100%;
+  }
+  .settings-row .hint{font-size:11.5px; color:#7a7060; line-height:1.5; font-style:italic;}
+  .settings-row .range-row{display:flex; align-items:center; gap:10px;}
+  .settings-row input[type="range"]{flex:1;}
+  .settings-row .range-val{font-size:12px; color:#5c5343; min-width:34px; text-align:right;}
+  .toggle-row{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:10px; margin-bottom:10px;
+  }
+  .toggle-row label{font-weight:600; color:#3a3226; font-size:13px;}
+  .switch{
+    position:relative; width:42px; height:24px; flex-shrink:0;
+  }
+  .switch input{opacity:0; width:0; height:0;}
+  .switch-slider{
+    position:absolute; inset:0; background:rgba(33,28,22,0.25);
+    border-radius:24px; cursor:pointer; transition:background .2s;
+  }
+  .switch-slider::before{
+    content:""; position:absolute; height:18px; width:18px;
+    left:3px; top:3px; background:var(--papyrus);
+    border-radius:50%; transition:transform .2s;
+  }
+  .switch input:checked + .switch-slider{background:var(--clay);}
+  .switch input:checked + .switch-slider::before{transform:translateX(18px);}
+  .premium-fields{display:none;}
+  .premium-fields.open{display:block;}
+</style>
+</head>
+<body>
+
+<div class="meander"></div>
+
+<header class="top">
+  <p class="kicker">GRIECHISCHE MYTHOLOGIE · ZUM LESEN UND HÖREN</p>
+  <h1 class="title">Sagen des <em>klassischen</em> Altertums</h1>
+  <p class="subtitle">Einunddreißig Kapitel — eine Sage bzw. Person pro Kapitel, entlang der Gliederung des Buches. Eigene, kompakte Nacherzählung, lesbar oder per Sprachausgabe vorlesbar.</p>
+</header>
+
+<main>
+
+  <section id="home" class="view">
+    <div id="grid-wrap"></div>
+    <div class="toolbar">
+      <button class="pill accent" id="startAllBtn">▶ Ganze Sage vorlesen</button>
+      <button class="pill ghost" id="resetBtn">Fortschritt zurücksetzen</button>
+    </div>
+  </section>
+
+  <section id="reader" class="view">
+    <div class="reader-shell">
+      <div class="reader-hero">
+        <p class="eyebrow" id="r-eyebrow">Kapitel 1 von 31</p>
+        <svg id="r-icon" viewBox="0 0 100 100" aria-hidden="true"></svg>
+        <h2 id="r-title">—</h2>
+        <p class="sub" id="r-sub">—</p>
+        <button class="voice-gear" id="gearBtn" title="Stimme einstellen" aria-label="Stimme einstellen">⚙</button>
+      </div>
+
+      <div class="settings-panel" id="settingsPanel">
+        <div class="toggle-row">
+          <label for="premiumToggle">Premium-Stimme verwenden (eigener ElevenLabs-Schlüssel)</label>
+          <span class="switch">
+            <input type="checkbox" id="premiumToggle">
+            <span class="switch-slider"></span>
+          </span>
+        </div>
+
+        <div class="settings-row">
+          <label for="voiceSelect">Geräte-Stimme (Sprachausgabe deines Telefons)</label>
+          <select id="voiceSelect"></select>
+          <span class="hint">Tipp: Für deutlich natürlichere Stimmen unter Android in Einstellungen → System → Sprache & Eingabe → Text-to-Speech-Ausgabe → Google-TTS-Engine → Sprachdaten installieren nach einer "Deutsch (Enhanced/Natural)"-Stimme suchen. Danach hier neu auswählen.</span>
+        </div>
+
+        <div class="settings-row">
+          <label for="rateRange">Sprechtempo</label>
+          <div class="range-row">
+            <input type="range" id="rateRange" min="0.7" max="1.3" step="0.02" value="0.98">
+            <span class="range-val" id="rateVal">0.98</span>
+          </div>
+        </div>
+
+        <div class="premium-fields" id="premiumFields">
+          <div class="settings-row">
+            <label for="apiKeyInput">ElevenLabs API-Schlüssel</label>
+            <input type="password" id="apiKeyInput" placeholder="sk_..." autocomplete="off">
+            <button type="button" class="pill" id="testElevenBtn" style="margin-top:8px;">ElevenLabs testen</button>
+            <span class="hint">Der Schlüssel wird nur an deinen lokalen Server auf diesem Gerät gesendet. Er wird nicht von der Webseite gespeichert oder an einen Drittanbieter-Proxy weitergegeben.</span>
+            <span class="hint" id="elevenTestStatus"></span>
+          </div>
+          <div class="settings-row">
+            <label for="elVoiceSelect">Premium-Stimme</label>
+            <select id="elVoiceSelect">
+              <option value="JBFqnCBsd6RMkjVDRZzb">George — männlich, erzählend</option>
+              <option value="21m00Tcm4TlvDq8ikWAM">Rachel — weiblich, klar</option>
+              <option value="pNInz6obpgDQGcFmaJgB">Adam — männlich, ruhig</option>
+              <option value="EXAVITQu4vr4xnSDxMaL">Bella — weiblich, warm</option>
+              <option value="ErXwobaYiN019PkySvjV">Antoni — männlich, erzählend</option>
+            </select>
+            <span class="hint">Diese Stimmen sprechen über das mehrsprachige ElevenLabs-Modell auch Deutsch. Eigene Voice-ID? Einfach im Feld darüber-Auswahl ignorieren und Code anpassen, oder uns Bescheid geben.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="audio-bar">
+        <button class="pill" id="playBtn">▶ Vorlesen</button>
+        <button class="pill ghost" id="stopBtn">■ Stopp</button>
+        <div style="flex:1;min-width:150px;">
+          <div class="status" id="audioStatus">Bereit</div>
+          <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+        </div>
+      </div>
+
+      <div class="reader-body" id="r-body"></div>
+
+      <div class="nav-row">
+        <button class="pill ghost" id="prevBtn">← Zurück</button>
+        <div class="dots" id="dots"></div>
+        <button class="pill ghost" id="nextBtn">Weiter →</button>
+      </div>
+    </div>
+    <div class="toolbar">
+      <button class="pill ghost" id="homeBtn">↩ Zur Übersicht</button>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Eigene, freie Zusammenfassungen der klassischen griechischen Mythen — kein Auszug aus urheberrechtlich geschützten Werken.<br>
+  Sprachausgabe nutzt die Stimmen deines Geräts (Web Speech API) — Qualität hängt vom Browser ab.
+</footer>
+
+<svg width="0" height="0" style="position:absolute">
+<defs>
+<symbol id="i-chaos" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="3.2"><circle cx="50" cy="50" r="8" fill="currentColor" stroke="none"/><circle cx="50" cy="50" r="20"/><circle cx="50" cy="50" r="32"/><circle cx="50" cy="50" r="44"/></g></symbol>
+<symbol id="i-prometheus" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M50 92 L50 55" /><circle cx="50" cy="38" r="14" fill="currentColor" stroke="none"/><path d="M35 60 L20 92 M65 60 L80 92"/><path d="M50 20 C42 8 30 8 26 18 C36 16 40 22 40 28 C48 24 50 30 46 36 C58 34 58 22 50 20 Z" fill="currentColor" stroke="none"/></g></symbol>
+<symbol id="i-demeter" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"><path d="M50 92 L50 40"/><path d="M50 40 C40 30 40 15 50 8 C60 15 60 30 50 40Z" fill="currentColor" stroke="none"/><path d="M30 60 C22 52 22 40 30 34 C38 40 38 52 30 60Z" fill="currentColor" stroke="none"/><path d="M70 60 C62 52 62 40 70 34 C78 40 78 52 70 60Z" fill="currentColor" stroke="none"/></g></symbol>
+<symbol id="i-deukalion" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 55 L34 40 L66 40 L78 55 Z"/><path d="M30 55 L30 44 M70 55 L70 44"/><path d="M8 66 Q20 58 32 66 Q44 74 56 66 Q68 58 80 66 Q90 72 96 66"/><path d="M8 78 Q20 70 32 78 Q44 86 56 78 Q68 70 80 78 Q90 84 96 78"/><circle cx="30" cy="30" r="3" fill="currentColor" stroke="none"/><circle cx="50" cy="24" r="3" fill="currentColor" stroke="none"/><circle cx="68" cy="30" r="3" fill="currentColor" stroke="none"/></g></symbol>
+<symbol id="i-io" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="50" cy="55" rx="26" ry="20"/><path d="M32 38 Q26 20 16 18 M40 34 Q38 16 30 10 M60 34 Q62 16 70 10 M68 38 Q74 20 84 18"/><circle cx="42" cy="52" r="2.6" fill="currentColor" stroke="none"/><circle cx="58" cy="52" r="2.6" fill="currentColor" stroke="none"/></g></symbol>
+<symbol id="i-europa" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="46" cy="46" rx="24" ry="18"/><path d="M30 32 Q22 14 10 12 M40 28 Q36 10 26 6"/><circle cx="38" cy="44" r="2.6" fill="currentColor" stroke="none"/><path d="M52 40 Q64 30 62 42 Q70 40 66 50"/><path d="M6 72 Q20 64 32 72 Q44 80 56 72 Q68 64 80 72 Q90 78 96 72"/></g></symbol>
+<symbol id="i-kadmos" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 30 Q35 15 50 30 Q65 45 50 55 Q60 60 55 70"/><circle cx="18" cy="27" r="4" fill="currentColor" stroke="none"/><path d="M30 78 L34 68 L38 78 M44 78 L48 68 L52 78 M58 78 L62 68 L66 78 M72 78 L76 68 L80 78"/></g></symbol>
+<symbol id="i-aktaion" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="50" cy="50" r="16"/><path d="M42 36 Q34 20 22 22 M38 34 Q34 16 24 10 M58 34 Q62 16 72 10 M62 36 Q70 20 80 22"/><path d="M20 82 Q30 74 38 82 M62 82 Q70 74 80 82"/></g></symbol>
+<symbol id="i-phaethon" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="50" cy="30" r="14"/><path d="M50 8 L50 14 M50 46 L50 52 M28 30 L34 30 M66 30 L72 30 M33 13 L37 17 M67 13 L63 17"/><circle cx="60" cy="70" r="12"/><path d="M60 58 L60 82 M48 70 L72 70 M52 62 L68 78 M52 78 L68 62"/><path d="M30 55 L18 85"/></g></symbol>
+<symbol id="i-perseus" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"><circle cx="50" cy="42" r="18"/><path d="M34 30 Q26 20 20 26 M38 24 Q34 12 26 14 M50 22 Q50 8 44 6 M62 24 Q66 12 74 14 M66 30 Q74 20 80 26"/><path d="M50 60 L50 90 M38 90 L62 90"/></g></symbol>
+<symbol id="i-philemon" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M50 85 L50 50 M50 50 C36 50 30 36 38 26 C42 18 58 18 62 26 C70 36 64 50 50 50Z" fill="currentColor" stroke="none" opacity=".9"/><path d="M28 85 L72 85 L64 62 L36 62 Z"/></g></symbol>
+<symbol id="i-daphne" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M50 90 Q46 60 50 30"/><path d="M50 34 Q40 30 34 20 M50 34 Q60 30 66 20 M50 48 Q38 44 30 36 M50 48 Q62 44 70 36 M50 62 Q40 58 34 50 M50 62 Q60 58 66 50"/></g></symbol>
+<symbol id="i-tantalos" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M50 18 L50 34"/><circle cx="40" cy="40" r="7" fill="currentColor" stroke="none"/><circle cx="52" cy="44" r="7" fill="currentColor" stroke="none"/><circle cx="63" cy="38" r="7" fill="currentColor" stroke="none"/><path d="M10 75 Q25 66 40 75 Q55 84 70 75 Q85 66 96 75"/><path d="M10 86 Q25 77 40 86 Q55 95 70 86 Q85 77 96 86"/></g></symbol>
+<symbol id="i-arachne" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="50" cy="50" r="10"/><circle cx="50" cy="50" r="22"/><circle cx="50" cy="50" r="34"/><path d="M50 16 L50 84 M16 50 L84 50 M27 27 L73 73 M73 27 L27 73"/></g></symbol>
+<symbol id="i-niobe" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M30 20 L70 20 L62 60 L38 60 Z"/><path d="M42 66 Q40 74 44 82 M50 66 Q48 76 52 86 M58 66 Q56 74 60 82"/></g></symbol>
+<symbol id="i-sisyphos" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 88 L80 20"/><circle cx="70" cy="30" r="14" fill="currentColor" stroke="none"/><path d="M22 78 L34 66 M22 78 L30 84"/></g></symbol>
+<symbol id="i-dioskuren" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M30 12 L35 26 L50 26 L38 35 L43 50 L30 41 L17 50 L22 35 L10 26 L25 26 Z" fill="currentColor" stroke="none"/><path d="M70 12 L75 26 L90 26 L78 35 L83 50 L70 41 L57 50 L62 35 L50 26 L65 26 Z" fill="currentColor" stroke="none"/><path d="M20 70 L30 55 L45 55 L55 70 L45 90 L30 90 Z"/><path d="M55 70 L65 55 L80 55 L90 70 L80 90 L65 90 Z"/></g></symbol>
+<symbol id="i-orpheus" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M30 85 Q26 40 40 22"/><path d="M70 85 Q74 40 60 22"/><path d="M40 22 Q50 12 60 22"/><path d="M34 40 L36 40 M34 52 L37 52 M34 64 L38 64 M34 76 L39 76"/></g></symbol>
+<symbol id="i-meleagros" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 60 L80 60 L74 68 L26 68 Z" fill="currentColor" stroke="none"/><path d="M50 60 C44 46 56 40 50 26 C60 34 62 46 54 54"/><ellipse cx="35" cy="82" rx="20" ry="10"/><path d="M15 78 L6 70 M15 86 L6 92"/></g></symbol>
+<symbol id="i-atalante" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 85 L38 55 L30 30 M38 55 L58 62 L74 40"/><path d="M20 85 L14 70 M74 40 L86 34"/><circle cx="30" cy="18" r="6" fill="currentColor" stroke="none"/><circle cx="55" cy="24" r="6" fill="currentColor" stroke="none"/><circle cx="76" cy="16" r="6" fill="currentColor" stroke="none"/></g></symbol>
+<symbol id="i-keyx" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 45 Q40 25 65 35 Q80 40 88 32 Q82 46 68 48 Q76 56 70 64 Q56 50 40 50 Q28 50 20 45Z" fill="currentColor" stroke="none" opacity=".9"/><path d="M10 78 Q25 70 40 78 Q55 86 70 78 Q85 70 96 78"/></g></symbol>
+<symbol id="i-midas" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 42 L30 68 L70 68 L82 42 L62 56 L50 34 L38 56 Z"/><path d="M28 68 L28 78 L72 78 L72 68"/><circle cx="50" cy="20" r="3" fill="currentColor" stroke="none"/><circle cx="34" cy="26" r="3" fill="currentColor" stroke="none"/><circle cx="66" cy="26" r="3" fill="currentColor" stroke="none"/></g></symbol>
+<symbol id="i-ikarus" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="50" cy="24" r="10" fill="currentColor" stroke="none"/><path d="M50 34 L50 68"/><path d="M50 42 C30 36 14 46 10 60 C26 58 38 52 50 46"/><path d="M50 42 C70 36 86 46 90 60 C74 58 62 52 50 46"/><path d="M42 68 L30 90 M58 68 L70 90"/></g></symbol>
+<symbol id="i-ion" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M30 40 L50 15 L70 40 Z"/><path d="M22 40 L78 40 L72 78 L28 78 Z"/><path d="M40 40 L40 78 M60 40 L60 78"/><path d="M50 15 C44 6 40 6 38 12 C44 10 46 14 44 18"/></g></symbol>
+<symbol id="i-herakles" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M30 20 Q50 5 70 20 Q78 40 66 55 Q50 62 34 55 Q22 40 30 20Z"/><circle cx="50" cy="36" r="8" fill="var(--papyrus)" stroke="currentColor" stroke-width="2"/><path d="M50 62 L50 90"/><path d="M62 40 L88 66 M82 40 L88 66 M88 60 L88 72"/></g></symbol>
+<symbol id="i-jason" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 62 Q50 78 88 62 L78 78 Q50 88 22 78 Z"/><path d="M50 62 L50 15"/><path d="M50 18 Q68 26 50 40 Q32 26 50 18Z" fill="currentColor" stroke="none"/><path d="M50 30 L28 40 M50 40 L72 48"/></g></symbol>
+<symbol id="i-theseus" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M50 50 m-38 0 a38 38 0 1 1 76 0 a38 38 0 1 1 -76 0"/><path d="M50 50 m-27 0 a27 27 0 1 1 54 0"/><path d="M50 50 m-16 0 a16 16 0 1 1 32 0"/><circle cx="50" cy="50" r="4" fill="currentColor" stroke="none"/></g></symbol>
+<symbol id="i-oedipus" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="42" cy="65" rx="26" ry="14"/><circle cx="66" cy="42" r="15"/><path d="M14 72 L8 84 M22 76 L18 88 M30 78 L28 90"/><path d="M60 30 L64 22 M72 30 L70 22"/></g></symbol>
+<symbol id="i-troja" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 85 L20 45 L50 20 L80 45 L80 85 Z"/><path d="M35 85 L35 60 L50 50 L65 60 L65 85"/><circle cx="50" cy="34" r="4" fill="currentColor" stroke="none"/><path d="M14 85 L86 85"/></g></symbol>
+<symbol id="i-tantaliden" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 55 L50 20 L78 55 L78 85 L22 85 Z"/><path d="M50 20 L40 55 L58 55 L46 85"/><path d="M35 85 L35 65 M65 85 L65 65"/></g></symbol>
+<symbol id="i-odysseus" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 62 Q50 80 90 62 L80 80 Q50 90 20 80 Z"/><path d="M50 62 L50 12"/><path d="M50 16 L74 28 L50 40 Z" fill="currentColor" stroke="none"/><path d="M12 50 Q20 44 28 50 M32 50 Q40 44 48 50 M52 50 Q60 44 68 50 M72 50 Q80 44 88 50"/></g></symbol>
+</defs>
+</svg>
+
+<script>
+const chapters = [
+  { part:"Von der Entstehung der Welt", icon:"i-chaos", eyebrow:"Am Anfang",
+    title:"Die Entstehung der Welt", sub:"Chaos, Gaia und die Titanen",
+    text:[
+      "Am Anfang war nichts als Chaos — eine gähnende, formlose Leere. Aus ihr traten die ersten großen Wesen hervor: Gaia, die Erde, und Uranos, der Himmel, der sich über sie wölbte. Aus ihrer Verbindung gingen die Titanen hervor, gewaltige Urgötter, unter ihnen Kronos.",
+      "Uranos fürchtete seine eigenen Kinder und verbannte sie ins Innere der Erde. Gaia, tief verletzt, überredete Kronos, sich gegen den Vater aufzulehnen. Kronos entmachtete Uranos und wurde selbst zum Herrscher der Welt — bis auch er, aus Angst vor einer Prophezeiung, seine eigenen Kinder zu verschlingen begann.",
+      "Nur der jüngste Sohn, Zeus, entging diesem Schicksal, weil seine Mutter Rhea ihn heimlich versteckte. Als er herangewachsen war, zwang er Kronos, seine Geschwister wieder herauszugeben, und stürzte ihn im großen Krieg der Götter gegen die Titanen. So begann die Herrschaft der Olympier."
+    ]},
+  { part:"Kleinere Sagen", icon:"i-prometheus", eyebrow:"Kleinere Sagen",
+    title:"Prometheus", sub:"Der Freund der Menschen",
+    text:[
+      "Prometheus, ein Titan von klugem und mitfühlendem Wesen, sah, wie schwach und schutzlos die Menschen gegenüber Kälte und Dunkelheit waren, während die Götter im Überfluss des Olymp lebten. Aus Mitleid stahl er ihnen das Feuer und brachte es, verborgen in einem hohlen Stängel, zu den Menschen.",
+      "Zeus empfand den Diebstahl als Auflehnung gegen die göttliche Ordnung. Er ließ Prometheus an einen Felsen im Kaukasus schmieden, wo ein Adler jeden Tag seine Leber fraß, die über Nacht immer wieder nachwuchs. Als zweite Strafe — diesmal für die Menschheit selbst — ließ er die erste Frau, Pandora, erschaffen und mit einem verschlossenen Gefäß zur Erde schicken.",
+      "Aus Neugier öffnete Pandora das Gefäß, und Krankheit, Leid und Mühsal entwichen in die Welt. Nur die Hoffnung blieb darin zurück, als sie den Deckel wieder schloss. Prometheus selbst wurde erst viele Generationen später von Herakles von seinen Ketten befreit."
+    ]},
+  { part:"Kleinere Sagen", icon:"i-demeter", eyebrow:"Kleinere Sagen",
+    title:"Demeter und Persephone", sub:"Der Ursprung der Jahreszeiten",
+    text:[
+      "Persephone, Tochter der Fruchtbarkeitsgöttin Demeter, spielte auf einer Blumenwiese, als sich die Erde plötzlich öffnete: Hades, Herr der Unterwelt, entführte sie in sein dunkles Reich. Demeter suchte verzweifelt und vernachlässigte darüber ihre Aufgabe — die Erde verdorrte, eine Hungersnot drohte.",
+      "Erst als Zeus eingriff, willigte Hades ein, Persephone gehen zu lassen — doch zuvor hatte sie von einem Granatapfelkern gekostet. Wer von der Speise der Unterwelt gegessen hat, muss dorthin zurückkehren.",
+      "So wurde vereinbart, dass Persephone einen Teil des Jahres bei Hades verbringt und den Rest bei ihrer Mutter. Steigt sie in die Unterwelt hinab, trauert Demeter, und es wird Winter auf der Erde."
+    ]},
+  { part:"Kleinere Sagen", icon:"i-deukalion", eyebrow:"Kleinere Sagen",
+    title:"Deukalion und Pyrrha", sub:"Die große Flut",
+    text:[
+      "Als die Menschen immer schlechter und gewalttätiger wurden, beschloss Zeus, das gesamte Menschengeschlecht durch eine gewaltige Flut auszulöschen. Nur Deukalion, ein Sohn des Prometheus, und seine Frau Pyrrha wurden vorgewarnt und bauten sich eine Truhe, in der sie tagelang auf den Fluten trieben.",
+      "Als das Wasser endlich zurückwich, ließen sie sich auf einem Berggipfel nieder — als einzige Überlebende einer verwüsteten Welt. Ratlos, wie sie neues Leben schaffen sollten, befragten sie ein Orakel.",
+      "Die rätselhafte Antwort lautete, sie sollten die 'Knochen der Mutter' hinter sich werfen. Deukalion erkannte: Gaia, die Erde, war diese Mutter, und ihre Knochen waren die Steine. Die Steine, die Deukalion warf, wurden zu Männern, die von Pyrrha zu Frauen — so entstand ein neues Menschengeschlecht."
+    ]},
+  { part:"Kleinere Sagen", icon:"i-io", eyebrow:"Kleinere Sagen",
+    title:"Io und Zeus", sub:"Die verwandelte Priesterin",
+    text:[
+      "Io, eine schöne Priesterin der Hera, weckte die Begierde des Zeus. Um seine Frau Hera zu täuschen, verwandelte er Io kurzerhand in eine weiße Kuh. Doch Hera durchschaute den Betrug und verlangte das Tier als Geschenk — dann band sie es an einen hundertäugigen Wächter namens Argos.",
+      "Zeus schickte Hermes, um Io zu befreien. Mit Musik und Geschichten lullte der Götterbote Argos in den Schlaf und tötete ihn. Hera aber ließ nicht locker: Sie sandte eine stechende Bremse, die die verwandelte Io rastlos über Länder und Meere trieb.",
+      "Erschöpft von der endlosen Flucht erreichte Io schließlich Ägypten, wo Zeus ihr die menschliche Gestalt zurückgab. Ihre lange Irrfahrt gab, so erzählt man, manchen Meerengen auf ihrem Weg den Namen."
+    ]},
+  { part:"Kleinere Sagen", icon:"i-europa", eyebrow:"Kleinere Sagen",
+    title:"Europa", sub:"Die Fahrt auf dem Stier",
+    text:[
+      "Europa, Tochter eines phönizischen Königs, spielte mit ihren Gefährtinnen am Strand, als sich unter den Herden ein ungewöhnlich sanfter, schneeweißer Stier zeigte. Es war Zeus, der sich in ihn verwandelt hatte. Vertrauensvoll bekränzte Europa seine Hörner mit Blumen und stieg auf seinen Rücken.",
+      "Kaum saß sie oben, erhob sich der Stier und trug sie, ohne dass sie sich wehren konnte, über das weite Meer davon — fort von ihrer Heimat, bis nach Kreta. Dort erst offenbarte sich Zeus in seiner wahren Gestalt.",
+      "Aus ihrer Verbindung ging unter anderem Minos hervor, der später als mächtiger König von Kreta herrschte. Der Kontinent, auf dem sie an Land gegangen war, trägt der Sage nach bis heute ihren Namen: Europa."
+    ]},
+  { part:"Kleinere Sagen", icon:"i-kadmos", eyebrow:"Kleinere Sagen",
+    title:"Kadmos", sub:"Der Gründer Thebens",
+    text:[
+      "Als Europa spurlos verschwunden war, schickte ihr Vater seinen Sohn Kadmos aus, sie zu suchen, mit der Warnung, ohne sie nicht zurückzukehren. Nach langer, erfolgloser Suche befragte Kadmos ein Orakel, das ihm auftrug, einer bestimmten Kuh zu folgen und dort, wo sie sich niederlasse, eine Stadt zu gründen.",
+      "An der vorbestimmten Stelle wollte er Wasser aus einer heiligen Quelle holen, die jedoch von einem gewaltigen Drachen bewacht wurde. Kadmos erschlug das Ungeheuer und säte, einem Rat der Athene folgend, dessen Zähne in die Erde.",
+      "Aus der Saat wuchsen bewaffnete Krieger, die sofort gegeneinander kämpften, bis nur noch fünf übrig blieben. Gemeinsam mit ihnen gründete Kadmos die Stadt Theben, die zu einer der mächtigsten Griechenlands werden sollte."
+    ]},
+  { part:"Kleinere Sagen", icon:"i-aktaion", eyebrow:"Kleinere Sagen",
+    title:"Aktaion", sub:"Der Jäger und die Göttin",
+    text:[
+      "Aktaion, ein leidenschaftlicher Jäger, streifte mit seinen Hunden durch die Wälder, als er zufällig auf eine versteckte Quelle stieß, in der die Göttin Artemis gerade badete. Kein Sterblicher durfte die Göttin unverhüllt sehen.",
+      "Erzürnt und beschämt bespritzte Artemis den erschrockenen Jäger mit Wasser und verwandelte ihn augenblicklich in einen Hirsch. Seine eigene Sprache verlor er, nur seine Gedanken blieben menschlich in einem Tierkörper gefangen.",
+      "Seine eigenen Jagdhunde, die ihren Herrn nicht mehr erkannten, witterten den fremden Hirsch, hetzten ihn durch den Wald und rissen ihn schließlich in Stücke — ein grausames Ende für eine unabsichtliche Verfehlung."
+    ]},
+  { part:"Kleinere Sagen", icon:"i-phaethon", eyebrow:"Kleinere Sagen",
+    title:"Phaethon", sub:"Der Sturz aus dem Sonnenwagen",
+    text:[
+      "Phaethon, Sohn des Sonnengottes Helios, wurde von Gefährten verspottet, sein Vater sei gar nicht wirklich die Sonne. Um seine Abstammung zu beweisen, erbat er sich von Helios die Erlaubnis, für einen einzigen Tag dessen Sonnenwagen über den Himmel zu lenken.",
+      "Widerstrebend gab Helios nach. Doch die feurigen Pferde spürten sofort, dass ein ungeübter Lenker die Zügel hielt, und rissen aus der gewohnten Bahn — mal zu nah an der Erde, sodass Wälder und Länder verbrannten, mal zu hoch, sodass es auf der Erde fror.",
+      "Um eine völlige Vernichtung der Welt zu verhindern, blieb Zeus keine Wahl: Er schleuderte einen Blitz auf Phaethon, der brennend aus dem Wagen in einen Fluss stürzte. Seine Schwestern trauerten so sehr, dass sie sich in Pappeln verwandelten, deren Tränen zu Bernstein wurden."
+    ]},
+  { part:"Kleinere Sagen", icon:"i-perseus", eyebrow:"Kleinere Sagen",
+    title:"Perseus", sub:"Der Blick, der versteinert",
+    text:[
+      "Perseus, Sohn des Zeus und der sterblichen Danae, wurde von einem grausamen König auf eine Aufgabe geschickt, von der er nicht zurückkehren sollte: das Haupt der Medusa zu bringen, jener Gorgo, deren Blick jeden Betrachter zu Stein erstarren ließ.",
+      "Mit Hilfe der Götter — geflügelten Sandalen, einem spiegelnden Schild und einer Tarnkappe — näherte sich Perseus der schlafenden Medusa, ohne ihr direkt in die Augen zu blicken, und führte im Spiegelbild des Schildes den tödlichen Schlag.",
+      "Auf dem Rückweg befreite er die an einen Felsen gekettete Andromeda von einem Meeresungeheuer und machte sie zu seiner Frau. Das Haupt der Medusa behielt seine erstarrende Kraft und fand später Platz in Athenes Schild."
+    ]},
+  { part:"Kleinere Sagen", icon:"i-philemon", eyebrow:"Kleinere Sagen",
+    title:"Philemon und Baukis", sub:"Gastfreundschaft belohnt",
+    text:[
+      "Zeus und Hermes wanderten einst, als Sterbliche verkleidet, durch ein Dorf in Phrygien und baten überall um Unterkunft. Tür um Tür wurde ihnen verweigert — bis sie bei dem alten, armen Ehepaar Philemon und Baukis anklopften, die trotz ihrer eigenen Bedürftigkeit alles teilten, was sie besaßen.",
+      "Als die Götter sich zu erkennen gaben, ließen sie zur Strafe für die Undankbarkeit der übrigen Dorfbewohner eine Flut über das Tal hereinbrechen. Nur das Häuschen des gastfreundlichen Paares blieb verschont und verwandelte sich in einen prächtigen Tempel.",
+      "Zum Dank durften sich Philemon und Baukis etwas wünschen: Hüter dieses Tempels zu sein und, wenn ihre Zeit gekommen sei, gemeinsam zu sterben. Als der Tod nahte, verwandelten die Götter beide in zwei Bäume, deren Äste sich für immer ineinander verschlingen."
+    ]},
+  { part:"Kleinere Sagen", icon:"i-daphne", eyebrow:"Kleinere Sagen",
+    title:"Daphne", sub:"Verwandlung in den Lorbeer",
+    text:[
+      "Der Liebesgott Eros, von Apollon verspottet, schoss aus Rache zwei Pfeile: einen goldenen, der Liebe entfacht, in Apollons Herz, und einen bleiernen, der Abneigung weckt, in das Herz der Nymphe Daphne. Von diesem Moment an verfolgte Apollon sie mit unstillbarer Leidenschaft, während sie ihn mit gleicher Kraft mied.",
+      "Als Apollon ihr auf der Flucht immer näherkam, erreichte Daphne erschöpft das Ufer eines Flusses und flehte ihren Vater, den Flussgott, um Rettung an — koste es, was es wolle.",
+      "In dem Augenblick, in dem Apollon sie beinahe einholte, begannen sich ihre Füße in Wurzeln, ihre Haut in Rinde und ihre Arme in Zweige zu verwandeln: Daphne wurde zum Lorbeerbaum. Untröstlich machte Apollon den Lorbeer fortan zu seinem heiligen Baum."
+    ]},
+  { part:"Kleinere Sagen", icon:"i-tantalos", eyebrow:"Kleinere Sagen",
+    title:"Tantalos", sub:"Ewiger Hunger, ewiger Durst",
+    text:[
+      "Tantalos, ein König, den die Götter so schätzten, dass sie ihn zu ihrer eigenen Tafel einluden, missbrauchte dieses Vertrauen auf schreckliche Weise: Um die Allwissenheit der Götter zu prüfen, tischte er ihnen bei einem Festmahl das Fleisch seines eigenen Sohnes vor.",
+      "Die Götter durchschauten den Frevel sofort — nur Demeter, in Trauer um Persephone abgelenkt, aß versehentlich von einer Schulter. Sie setzten den getöteten Sohn wieder zusammen und erweckten ihn mit einer elfenbeinernen Ersatzschulter zu neuem Leben.",
+      "Tantalos selbst wurde in die Unterwelt verbannt, zu einer Strafe, die seinem Verbrechen entsprach: Er steht bis zum Kinn in Wasser, das zurückweicht, sobald er trinken will, unter Fruchtzweigen, die sich entziehen, sobald er nach ihnen greift — für immer von Hunger und Durst gequält."
+    ]},
+  { part:"Kleinere Sagen", icon:"i-arachne", eyebrow:"Kleinere Sagen",
+    title:"Arachne", sub:"Der Wettstreit der Weberinnen",
+    text:[
+      "Arachne, eine junge Frau von außergewöhnlichem Geschick am Webstuhl, rühmte sich, keine Göttin könne feinere Stoffe weben als sie — nicht einmal Athene selbst, die Göttin der Webkunst. Die Herausforderung blieb nicht ungehört.",
+      "Athene erschien und nahm den Wettstreit an. Während ihr eigenes Gewebe die Macht der Götter verherrlichte, wob Arachne, ohne einen einzigen Fehler, Szenen, die die Fehltritte und Täuschungen der Götter offenlegten. Technisch war ihr Werk vollkommen — inhaltlich eine Provokation.",
+      "Zornig zerriss Athene das Tuch. Aus Scham und Verzweiflung wollte sich Arachne erhängen. Athene verwandelte sie im letzten Moment in eine Spinne, dazu verurteilt, für immer feine Fäden zu spinnen und zu weben — nur nun ohne jeden Ruhm."
+    ]},
+  { part:"Kleinere Sagen", icon:"i-niobe", eyebrow:"Kleinere Sagen",
+    title:"Niobe", sub:"Die versteinerte Mutter",
+    text:[
+      "Niobe, Königin von Theben, war stolz auf ihre vierzehn Kinder und verspottete eines Tages öffentlich die Göttin Leto, die nur zwei besaß: Apollon und Artemis. Sie sei, prahlte Niobe, damit die weit größere Mutter.",
+      "Leto ertrug die Kränkung nicht und schickte ihre beiden göttlichen Kinder aus, Niobes Söhne und Töchter mit Pfeilen zu erschlagen — einen nach dem anderen, vor den Augen der Mutter.",
+      "Von unermesslichem Schmerz gelähmt, erstarrte Niobe schließlich selbst zu Stein, versetzt auf einen Berggipfel in ihrer Heimat. Doch selbst als Fels, so erzählt die Sage, ließ ihre Trauer nicht nach: Aus dem Stein sickert bis heute Wasser wie unaufhörliche Tränen."
+    ]},
+  { part:"Kleinere Sagen", icon:"i-sisyphos", eyebrow:"Kleinere Sagen",
+    title:"Sisyphos", sub:"Der Stein, der niemals oben bleibt",
+    text:[
+      "Sisyphos, ein listenreicher König, überlistete selbst den Tod: Als Thanatos kam, um ihn zu holen, legte Sisyphos ihm Fesseln an, sodass auf der ganzen Welt niemand mehr sterben konnte, bis die Götter eingriffen und ihn befreiten.",
+      "Ein zweites Mal entkam Sisyphos der Unterwelt, indem er seine eigene Frau anwies, ihm kein Begräbnis auszurichten — so konnte er Hades überreden, ihn kurz zur Erde zurückkehren zu lassen, um sie zurechtzuweisen, und weigerte sich anschließend, wieder hinabzusteigen.",
+      "Für seine wiederholte Auflehnung gegen die Ordnung von Leben und Tod erhielt Sisyphos eine Strafe von symbolischer Grausamkeit: Er muss einen riesigen Felsblock einen Berg hinaufrollen, der ihm, kurz bevor er den Gipfel erreicht, immer wieder entgleitet und zurückrollt — für alle Ewigkeit."
+    ]},
+  { part:"Kleinere Sagen", icon:"i-dioskuren", eyebrow:"Kleinere Sagen",
+    title:"Die Dioskuren", sub:"Kastor und Polydeukes",
+    text:[
+      "Kastor und Polydeukes, die Dioskuren, waren Zwillingsbrüder und doch von unterschiedlicher Herkunft: Kastor war der sterbliche Sohn eines Königs, Polydeukes der unsterbliche Sohn des Zeus. Trotzdem waren die beiden untrennbar, kämpften gemeinsam an der Seite berühmter Helden und teilten jedes Abenteuer.",
+      "Als Kastor in einer Fehde tödlich verwundet wurde, war der Schmerz für Polydeukes unerträglich. Er flehte Zeus an, ihm die Unsterblichkeit zu nehmen, damit er seinem Bruder in den Tod folgen könne.",
+      "Zeus fand einen anderen Ausweg: Er erlaubte den Brüdern, sich die Unsterblichkeit zu teilen — abwechselnd verbringen sie seither einen Tag im Olymp und einen im Reich der Schatten. Am Himmel wurden sie als das Sternbild der Zwillinge verewigt."
+    ]},
+  { part:"Kleinere Sagen", icon:"i-orpheus", eyebrow:"Kleinere Sagen",
+    title:"Orpheus und Eurydike", sub:"Der Gesang gegen den Tod",
+    text:[
+      "Orpheus, der begnadetste Sänger und Leierspieler aller Zeiten, liebte seine Frau Eurydike über alles. Als sie kurz nach der Hochzeit an einem Schlangenbiss starb, beschloss er, ihr in die Unterwelt zu folgen und sie zurückzuholen.",
+      "Mit seinem Gesang rührte er selbst die unerbittlichen Herrscher der Unterwelt zu Tränen. Sie gewährten ihm eine Ausnahme: Eurydike durfte ihm auf dem Weg zurück ans Tageslicht folgen — unter einer einzigen, strengen Bedingung.",
+      "Er dürfe sich unter keinen Umständen nach ihr umsehen, bevor beide die Oberwelt erreicht hätten. Kurz vor dem Ausgang, von Zweifel überwältigt, blickte Orpheus zurück — und musste mitansehen, wie Eurydike für immer in die Schatten zurückglitt."
+    ]},
+  { part:"Kleinere Sagen", icon:"i-meleagros", eyebrow:"Kleinere Sagen",
+    title:"Meleagros", sub:"Der brennende Holzscheit",
+    text:[
+      "Bei der Geburt des Prinzen Meleagros erschienen die Schicksalsgöttinnen und verkündeten, er werde leben, solange ein bestimmter Holzscheit im Kamin nicht vollständig verbrannt sei. Seine Mutter zog das Scheit sofort aus dem Feuer und verwahrte es sicher.",
+      "Als erwachsener Mann führte Meleagros die Jagd auf einen riesigen, von Artemis gesandten Eber an, der das Land verwüstete, und erlegte ihn schließlich. Ein erbitterter Streit um die Trophäe entbrannte, in dessen Verlauf Meleagros im Zorn zwei eigene Onkel erschlug.",
+      "Als seine Mutter erfuhr, dass er ihre Brüder getötet hatte, überwältigte sie der Schmerz: Sie warf das seit Jahren gehütete Holzscheit ins Feuer. In dem Moment, in dem es zu Asche verbrannte, erlosch auch das Leben ihres Sohnes."
+    ]},
+  { part:"Kleinere Sagen", icon:"i-atalante", eyebrow:"Kleinere Sagen",
+    title:"Atalante", sub:"Der Wettlauf um die Hand",
+    text:[
+      "Atalante, als Kind ausgesetzt und von einer Bärin aufgezogen, wuchs zu einer schnelleren Läuferin heran als jeder Mann. Da sie nicht heiraten wollte, stellte sie eine Bedingung: Nur wer sie im Wettlauf schlage, dürfe sie zur Frau nehmen — jeder Verlierer aber müsse sterben.",
+      "Viele Bewerber verloren ihr Leben, bis Hippomenes um ihre Hand warb. Von Aphrodite erhielt er drei goldene Äpfel mit dem Rat, sie während des Rennens nacheinander vor Atalante fallen zu lassen.",
+      "Immer wenn Atalante drohte, ihn zu überholen, ließ Hippomenes einen Apfel rollen; ihre Neugier ließ sie kurz innehalten, um ihn aufzuheben. So gewann Hippomenes knapp den Wettlauf und Atalantes Hand."
+    ]},
+  { part:"Kleinere Sagen", icon:"i-keyx", eyebrow:"Kleinere Sagen",
+    title:"Keyx und Alkyone", sub:"Verwandlung in Eisvögel",
+    text:[
+      "Keyx und Alkyone liebten einander so innig, dass sie sich in ihrem Glück leichtsinnig sogar mit Zeus und Hera verglichen — eine Vermessenheit, die die Götter nicht ungestraft ließen. Als Keyx eine Seereise antrat, geriet sein Schiff in einen tödlichen Sturm.",
+      "Alkyone, die von seinem Untergang nichts wusste, betete täglich für seine sichere Heimkehr. Aus Mitleid schickte ihr ein Gott im Traum ein Bild der Wahrheit: Keyx, ertrunken, erschien ihr und offenbarte sein Schicksal.",
+      "Am nächsten Morgen eilte Alkyone verzweifelt ans Meer und warf sich in die Wellen, um bei ihm zu sein. Aus Mitleid verwandelten die Götter beide in Eisvögel, die seither jeden Winter über dem beruhigten Meer ihre Nester bauen."
+    ]},
+  { part:"Kleinere Sagen", icon:"i-midas", eyebrow:"Kleinere Sagen",
+    title:"Midas", sub:"Die goldene Berührung",
+    text:[
+      "König Midas erwies dem Gott Dionysos einen Gefallen und durfte sich dafür etwas wünschen. Von Gier geblendet, wünschte er sich, dass alles, was er berühre, sich in Gold verwandle — ohne an die Folgen zu denken.",
+      "Zunächst war er überglücklich: Zweige, Steine, sein ganzer Palast erstrahlten in Gold. Doch schon beim ersten Bissen Brot erkannte er das Ausmaß seines Fehlers — auch die Speise erstarrte augenblicklich zu hartem Metall, und selbst seine Tochter verwandelte er versehentlich mit einer Umarmung.",
+      "Verzweifelt bat Midas Dionysos, den Fluch rückgängig zu machen. Der Gott hatte Mitleid und wies ihn an, sich im Fluss Paktolos zu waschen — das Gold floss ins Wasser ab, und der Fluss soll seither goldhaltigen Sand mit sich führen."
+    ]},
+  { part:"Kleinere Sagen", icon:"i-ikarus", eyebrow:"Kleinere Sagen",
+    title:"Daidalos und Ikaros", sub:"Der Flug zu nah an der Sonne",
+    text:[
+      "Der geniale Erfinder Daidalos hatte einst das Labyrinth von Kreta erbaut. Als König Minos ihn und seinen Sohn Ikaros später selbst auf der Insel gefangen hielt, ersann Daidalos einen kühnen Fluchtplan: Aus Federn und Wachs baute er zwei Paar Flügel.",
+      "Bevor sie aufbrachen, warnte er seinen Sohn eindringlich: Ikaros solle weder zu tief fliegen, wo die Feuchtigkeit des Meeres die Federn schwer machen würde, noch zu hoch, wo die Hitze der Sonne das Wachs schmelzen könnte.",
+      "Im Rausch des Fliegens vergaß Ikaros die Warnung und stieg immer höher. Die Sonne schmolz das Wachs, die Federn lösten sich, und er stürzte ins Meer, das seither seinen Namen trägt. Daidalos erreichte, tief trauernd, allein das rettende Ufer."
+    ]},
+  { part:"Kleinere Sagen", icon:"i-ion", eyebrow:"Kleinere Sagen",
+    title:"Ion", sub:"Der Findling von Delphi",
+    text:[
+      "Kreusa, Prinzessin von Athen, gebar heimlich einen Sohn — Ion, gezeugt von Apollon — und setzte das Kind, überwältigt von Scham und Angst, aus. Apollon sorgte jedoch dafür, dass der Knabe gerettet und als Tempeldiener in Delphi aufgezogen wurde.",
+      "Jahre später kamen Kreusa und ihr Mann Xuthos, kinderlos geblieben, nach Delphi, um das Orakel um Nachwuchs zu bitten. Als Xuthos dort auf Ion trifft, hält er ihn fälschlich für seinen eigenen, unehelichen Sohn.",
+      "Kreusa, misstrauisch und tief verletzt, versucht in ihrer Verzweiflung sogar, den ihr noch unbekannten jungen Mann zu vergiften — ein Anschlag, der im letzten Moment misslingt. Erst danach kommt durch Zufall und göttliche Fügung die Wahrheit ans Licht: Ion ist ihr eigener, totgeglaubter Sohn."
+    ]},
+  { part:"Die großen Heldensagen", icon:"i-herakles", eyebrow:"Die großen Heldensagen",
+    title:"Die Sage von Herakles", sub:"Der stärkste aller Sterblichen",
+    text:[
+      "Herakles, Sohn des Zeus und einer sterblichen Frau, war von Geburt an das Ziel von Heras Eifersucht. In einem von ihr gesandten Wahnsinnsanfall tötete er seine eigene Familie — ein Unglück, das ihn sein Leben lang verfolgte und ihn zur Buße zwang.",
+      "Zur Sühne musste er zwölf beinahe unmögliche Aufgaben erfüllen: Er erwürgte den unverwundbaren nemeischen Löwen, besiegte die vielköpfige Hydra, fing die goldgeweihte Hirschkuh der Artemis und säuberte an einem einzigen Tag gewaltige Stallungen, indem er einen ganzen Fluss umleitete. Er raubte den Gürtel der Amazonenkönigin, trieb die Rinder des Geryones aus fernem Land heim und pflückte die goldenen Äpfel der Hesperiden.",
+      "Auch die Unterwelt schreckte ihn nicht: Er zähmte den dreiköpfigen Höllenhund Kerberos und brachte ihn lebend an die Oberfläche. Sein Ende kam durch eine List des sterbenden Kentauren Nessos, dessen vergiftetes Blut ihm ein tödliches Gewand brachte. Wegen seiner übermenschlichen Leistungen wurde Herakles unter die Götter aufgenommen."
+    ]},
+  { part:"Die großen Heldensagen", icon:"i-jason", eyebrow:"Die großen Heldensagen",
+    title:"Die Argonauten", sub:"Die Suche nach dem Goldenen Vlies",
+    text:[
+      "Um seinen rechtmäßigen Thron zurückzuerhalten, wurde Iason von seinem Onkel Pelias auf eine Aufgabe geschickt, die als unlösbar galt: das Goldene Vlies aus dem fernen Kolchis zu holen, bewacht von einem niemals schlafenden Drachen.",
+      "Iason versammelte die tapfersten Helden Griechenlands auf dem Schiff Argo — darunter Herakles und Orpheus — und segelte durch gefährliche, unbekannte Gewässer, vorbei an zusammenschlagenden Felsen und feindseligen Küsten. In Kolchis verliebte sich die Zauberin Medea in ihn und half ihm, den Drachen einzuschläfern und eine Reihe unmöglicher Kraftproben zu bestehen.",
+      "Mit dem Goldenen Vlies und Medea an seiner Seite floh Iason zurück nach Griechenland. Doch das Glück blieb ihm nicht treu: Ihre Liebe endete Jahre später in Verrat, als Iason Medea für eine andere Frau verließ und sie sich auf schreckliche Weise rächte."
+    ]},
+  { part:"Die großen Heldensagen", icon:"i-theseus", eyebrow:"Die großen Heldensagen",
+    title:"Theseus", sub:"Der Faden der Ariadne",
+    text:[
+      "Theseus wuchs fern seines Vaters, des Königs von Athen, auf und machte sich als junger Mann allein auf den gefährlichen Weg dorthin, wobei er zahlreiche Räuber und Ungeheuer besiegte. In Athen angekommen, meldete er sich freiwillig, um den schrecklichen Tribut zu beenden, den die Stadt jedes Jahr an König Minos von Kreta zahlen musste: sieben Jünglinge und sieben Jungfrauen für den Minotaurus, ein Ungeheuer im Inneren eines gewaltigen Labyrinths.",
+      "Auf Kreta verliebte sich die Königstochter Ariadne in ihn und gab ihm heimlich ein Wollknäuel, dessen Faden er beim Betreten des Labyrinths abrollen sollte. Tief im Inneren gelang es Theseus, den Minotaurus im Kampf zu besiegen und dank des Fadens den Weg zurück ans Licht zu finden.",
+      "Auf der Rückfahrt verließ er Ariadne auf einer einsamen Insel — eine Untreue, die ihn später einholte. Als König von Athen kämpfte Theseus noch in der berühmten Schlacht zwischen Lapithen und Kentauren; seine zweite Ehe mit Phaidra endete in einer Tragödie, als diese sich fälschlich von seinem Sohn verschmäht glaubte."
+    ]},
+  { part:"Die großen Heldensagen", icon:"i-oedipus", eyebrow:"Die großen Heldensagen",
+    title:"Oidipus und sein Geschlecht", sub:"Das Rätsel der Sphinx",
+    text:[
+      "Einem König von Theben war geweissagt worden, sein eigener Sohn werde ihn töten. Aus Angst setzte er das Neugeborene, Oidipus, in der Wildnis aus. Der Knabe wurde gerettet und wuchs fern seiner wahren Herkunft am Hof eines anderen Königs auf.",
+      "Als Oidipus erfuhr, er sei dazu bestimmt, seinen Vater zu töten, verließ er, was er für sein Elternhaus hielt — und erschlug ausgerechnet dadurch auf seinem Weg im Zorn einen fremden Reisenden, der, ohne dass er es wusste, sein leiblicher Vater war. In Theben löste er das tödliche Rätsel der Sphinx und wurde König — an der Seite der verwitweten Königin, seiner eigenen Mutter.",
+      "Als die Wahrheit Jahre später ans Licht kam, blendete sich Oidipus selbst und ging in die Verbannung, begleitet von seiner treuen Tochter Antigone. Auch seine Kinder blieben vom Fluch des Hauses nicht verschont: Seine Söhne töteten sich im Kampf um den Thron gegenseitig, und Antigone bezahlte später mit ihrem Leben dafür, dass sie einem Bruder gegen ein königliches Verbot ein ehrenvolles Begräbnis verschaffte."
+    ]},
+  { part:"Die großen Heldensagen", icon:"i-troja", eyebrow:"Die großen Heldensagen",
+    title:"Der Trojanische Krieg", sub:"Helena und das hölzerne Pferd",
+    text:[
+      "Als der trojanische Prinz Paris die schöne Helena, Gattin des griechischen Königs Menelaos, nach Troja entführte, zogen die vereinten Griechen mit tausend Schiffen vor die Stadt. Zehn lange Jahre belagerten sie Troja, ohne seine mächtigen Mauern zu durchbrechen.",
+      "Zahllose Helden traten gegeneinander an: der unbezwingbare Achilleus, der kluge Odysseus, der tapfere Hektor, die Amazonenkönigin Penthesileia, die Troja zu Hilfe eilte. Selbst nach Hektors Tod im Zweikampf mit Achilleus und dem Racheakt an dessen Leichnam fiel die Stadt nicht — und schließlich traf auch Achilleus selbst eine tödliche Pfeilspitze.",
+      "Erst eine List brachte die Wende: Die Griechen bauten ein riesiges hölzernes Pferd, verbargen darin ihre besten Krieger und täuschten den Abzug vor. Trotz der Warnungen des Priesters Laokoon zogen die Trojaner das vermeintliche Geschenk in ihre Stadt — in der Nacht öffneten die versteckten Krieger die Tore, und Troja versank in Feuer und Untergang."
+    ]},
+  { part:"Die großen Heldensagen", icon:"i-tantaliden", eyebrow:"Die großen Heldensagen",
+    title:"Das Schicksal der Tantaliden", sub:"Der Fluch im Haus der Atriden",
+    text:[
+      "Über dem Königshaus der Atriden lag seit Generationen ein Fluch, ausgehend von Tantalos selbst. Er erfüllte sich erneut, als Feldherr Agamemnon nach dem Sieg über Troja siegreich heimkehrte — und von seiner eigenen Frau Klytaimnestra und deren Geliebtem im Bad ermordet wurde, aus Rache dafür, dass er einst ihre gemeinsame Tochter geopfert hatte.",
+      "Ihr Sohn Orest, von den Göttern zur Rache aufgerufen, tötete daraufhin seine eigene Mutter — eine Tat, für die ihn die rächenden Erinnyen bis an den Rand des Wahnsinns verfolgten. Erst ein Gericht auf dem Areopag in Athen, mit Unterstützung der Göttin Athene, sprach ihn schließlich frei.",
+      "Auf der Suche nach Reinigung fand Orest im fernen Tauris seine totgeglaubte Schwester Iphigeneia wieder, die dort als Priesterin diente. Gemeinsam gelang beiden mit Hilfe der Götter die gefahrvolle Flucht zurück in die Heimat — und der jahrhundertealte Fluch des Hauses fand endlich sein Ende."
+    ]},
+  { part:"Die großen Heldensagen", icon:"i-odysseus", eyebrow:"Die großen Heldensagen",
+    title:"Die Irrfahrten des Odysseus", sub:"Zehn Jahre auf dem Weg nach Hause",
+    text:[
+      "Nach dem Fall Trojas machte sich Odysseus auf den Heimweg zu seiner Insel Ithaka — eine Reise, die eigentlich Wochen dauern sollte, sich aber wegen des Zorns des Meeresgottes Poseidon zu zehn Jahren voller Gefahren ausdehnte. Unterdessen wuchs sein Sohn Telemachos ohne ihn auf und machte sich schließlich selbst auf die Suche nach Nachricht vom Vater.",
+      "Odysseus entkam dem einäugigen Kyklopen Polyphem durch List, widerstand dem betörenden Gesang der Sirenen, indem er sich an den Mast fesseln ließ, und überstand die Zauberin Kirke, die seine Gefährten in Schweine verwandelte. Nach Schiffbruch strandete er bei den gastfreundlichen Phaiaken, wo ihn die Königstochter Nausikaa fand und wo er endlich seine wahre Identität preisgab.",
+      "Zuletzt kehrte er, aller Habe beraubt, als Bettler verkleidet nach Ithaka zurück, wo seine treue Frau Penelope von zudringlichen Freiern bedrängt wurde. Gemeinsam mit Telemachos enthüllte sich Odysseus im richtigen Moment, bestand die Probe mit seinem eigenen Bogen und vertrieb die Freier — bevor er endlich auch Penelope und seinen alten Vater Laertes wiedersah."
+    ]}
+];
+
+let current = 0;
+let isPlayingAll = false;
+let completed = new Set();
+
+const homeView = document.getElementById('home');
+const readerView = document.getElementById('reader');
+const gridWrap = document.getElementById('grid-wrap');
+
+function buildGrid(){
+  gridWrap.innerHTML = '';
+  let lastPart = null;
+  let gridEl = null;
+  chapters.forEach((ch, i) => {
+    if(ch.part !== lastPart){
+      lastPart = ch.part;
+      const label = document.createElement('div');
+      label.className = 'part-label';
+      label.textContent = ch.part;
+      gridWrap.appendChild(label);
+      gridEl = document.createElement('div');
+      gridEl.className = 'grid';
+      gridWrap.appendChild(gridEl);
+    }
+    const card = document.createElement('button');
+    card.className = 'card' + (completed.has(i) ? ' done' : '');
+    card.innerHTML = `
+      <span class="num">${String(i+1).padStart(2,'0')}</span>
+      <span class="icon-wrap"><svg viewBox="0 0 100 100"><use href="#${ch.icon}"/></svg></span>
+      <span class="label"><b>${ch.title}</b><span>${ch.sub}</span></span>
+    `;
+    card.addEventListener('click', () => openChapter(i));
+    gridEl.appendChild(card);
+  });
+}
+
+function buildDots(){
+  const dots = document.getElementById('dots');
+  dots.innerHTML = '';
+  chapters.forEach((_, i) => {
+    const d = document.createElement('span');
+    d.className = 'dot' + (i===current?' active':'') + (completed.has(i)?' done':'');
+    dots.appendChild(d);
+  });
+}
+
+function fillReader(i){
+  const ch = chapters[i];
+  document.getElementById('r-eyebrow').textContent = `Kapitel ${i+1} von ${chapters.length} · ${ch.part}`;
+  document.getElementById('r-title').textContent = ch.title;
+  document.getElementById('r-sub').textContent = ch.sub;
+  document.getElementById('r-icon').innerHTML = `<use href="#${ch.icon}"/>`;
+  document.getElementById('r-body').innerHTML = ch.text.map(p => `<p>${p}</p>`).join('');
+  document.getElementById('prevBtn').disabled = i===0;
+  document.getElementById('nextBtn').disabled = i===chapters.length-1;
+  buildDots();
+}
+
+function openChapter(i){
+  current = i;
+  fillReader(i);
+  stopSpeech();
+  homeView.style.display = 'none';
+  readerView.style.display = 'block';
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function goHome(){
+  stopSpeech();
+  isPlayingAll = false;
+  buildGrid();
+  readerView.style.display = 'none';
+  homeView.style.display = 'block';
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+/* --- Speech settings state --- */
+let selectedVoiceURI = null;
+let speechRate = 0.98;
+let premiumEnabled = false;
+let apiKey = '';
+let elVoiceId = 'JBFqnCBsd6RMkjVDRZzb';
+
+const gearBtn = document.getElementById('gearBtn');
+const settingsPanel = document.getElementById('settingsPanel');
+const voiceSelect = document.getElementById('voiceSelect');
+const rateRange = document.getElementById('rateRange');
+const rateVal = document.getElementById('rateVal');
+const premiumToggle = document.getElementById('premiumToggle');
+const premiumFields = document.getElementById('premiumFields');
+const apiKeyInput = document.getElementById('apiKeyInput');
+const elVoiceSelect = document.getElementById('elVoiceSelect');
+
+gearBtn.addEventListener('click', () => settingsPanel.classList.toggle('open'));
+
+rateRange.addEventListener('input', () => {
+  speechRate = parseFloat(rateRange.value);
+  rateVal.textContent = speechRate.toFixed(2);
+});
+
+premiumToggle.addEventListener('change', () => {
+  premiumEnabled = premiumToggle.checked;
+  premiumFields.classList.toggle('open', premiumEnabled);
+});
+apiKeyInput.addEventListener('input', () => { apiKey = apiKeyInput.value.trim(); });
+elVoiceSelect.addEventListener('change', () => { elVoiceId = elVoiceSelect.value; });
+
+const testElevenBtn = document.getElementById('testElevenBtn');
+const elevenTestStatus = document.getElementById('elevenTestStatus');
+
+testElevenBtn.addEventListener('click', async () => {
+  apiKey = apiKeyInput.value.trim();
+  if(!apiKey){
+    elevenTestStatus.textContent = 'Bitte zuerst den API-Schlüssel eingeben.';
+    return;
+  }
+  testElevenBtn.disabled = true;
+  elevenTestStatus.textContent = 'Teste ElevenLabs …';
+  try {
+    const url = await fetchElevenLabsAudio('Dies ist ein kurzer Test der ElevenLabs-Stimme.');
+    const audio = new Audio(url);
+    await new Promise((resolve, reject) => {
+      audio.onended = resolve;
+      audio.onerror = () => reject(new Error('Die Audiodatei konnte nicht abgespielt werden.'));
+      audio.play().catch(reject);
+    });
+    URL.revokeObjectURL(url);
+    elevenTestStatus.textContent = 'ElevenLabs funktioniert.';
+  } catch(err) {
+    elevenTestStatus.textContent = err.message;
+  } finally {
+    testElevenBtn.disabled = false;
+  }
+});
+
+function populateVoices(){
+  const synthLocal = window.speechSynthesis;
+  if(!synthLocal) return;
+  const voices = synthLocal.getVoices();
+  if(!voices.length) return;
+  const german = voices.filter(v => v.lang && v.lang.toLowerCase().startsWith('de'));
+  const others = voices.filter(v => !(v.lang && v.lang.toLowerCase().startsWith('de')));
+  voiceSelect.innerHTML = '';
+  [...german, ...others].forEach(v => {
+    const opt = document.createElement('option');
+    opt.value = v.voiceURI;
+    opt.textContent = `${v.name} (${v.lang})${v.localService ? '' : ' · online'}`;
+    voiceSelect.appendChild(opt);
+  });
+  if(german.length){
+    selectedVoiceURI = german[0].voiceURI;
+    voiceSelect.value = selectedVoiceURI;
+  }
+}
+voiceSelect.addEventListener('change', () => { selectedVoiceURI = voiceSelect.value; });
+
+if(window.speechSynthesis){
+  populateVoices();
+  window.speechSynthesis.onvoiceschanged = populateVoices;
+}
+
+/* --- Speech --- */
+const synth = window.speechSynthesis || null;
+const speechSupported = !!synth && typeof SpeechSynthesisUtterance !== 'undefined';
+let currentUtterances = [];
+let utterIndex = 0;
+let currentAudioEl = null;
+let playbackAborted = false;
+
+if(!speechSupported){
+  document.getElementById('audioStatus').textContent = 'Geräte-Sprachausgabe nicht verfügbar — nutze bei Bedarf die Premium-Stimme (⚙)';
+  voiceSelect.disabled = true;
+  rateRange.disabled = true;
+  premiumToggle.checked = true;
+  premiumEnabled = true;
+  premiumFields.classList.add('open');
+}
+
+async function fetchElevenLabsAudio(text){
+  if(!apiKey) throw new Error('Kein ElevenLabs API-Schlüssel eingegeben.');
+  if(!elVoiceId) throw new Error('Keine ElevenLabs-Stimme ausgewählt.');
+
+  // Die Webseite spricht absichtlich nur mit dem lokalen Server.
+  // Dadurch gibt es kein Browser-CORS-Problem und der ElevenLabs-Key
+  // wird nicht direkt von JavaScript an einen fremden Server geschickt.
+  let res;
+  try {
+    res = await fetch('/api/tts', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        apiKey,
+        voiceId: elVoiceId,
+        text: String(text)
+      })
+    });
+  } catch(err) {
+    throw new Error('Lokaler ElevenLabs-Server nicht erreichbar. Starte elevenlabs_server.py und öffne die Seite über http://127.0.0.1:8000.');
+  }
+
+  if(!res.ok){
+    let detail = '';
+    try {
+      const data = await res.json();
+      detail = data?.error || data?.detail || '';
+    } catch(_) {
+      detail = await res.text().catch(() => '');
+    }
+    throw new Error(`ElevenLabs-Fehler ${res.status}: ${String(detail).slice(0,300)}`);
+  }
+
+  const blob = await res.blob();
+  if(!blob.size) throw new Error('ElevenLabs hat eine leere Audiodatei zurückgegeben.');
+  return URL.createObjectURL(blob);
+}
+
+async function speakChapterPremium(i, onDone){
+  const ch = chapters[i];
+  utterIndex = 0;
+  currentUtterances = ch.text;
+  document.getElementById('playBtn').textContent = '⏸ Läuft';
+  playbackAborted = false;
+
+  for(utterIndex = 0; utterIndex < ch.text.length; utterIndex++){
+    if(playbackAborted) return;
+    updateProgress();
+    document.getElementById('audioStatus').textContent = `Premium-Stimme lädt … Abschnitt ${utterIndex+1} von ${ch.text.length}`;
+    let url;
+    try {
+      url = await fetchElevenLabsAudio(ch.text[utterIndex]);
+    } catch(err){
+      document.getElementById('audioStatus').textContent = err.message + ' — wechsle zur Geräte-Stimme.';
+      premiumEnabled = false;
+      premiumToggle.checked = false;
+      premiumFields.classList.remove('open');
+      return speakChapterBrowser(i, onDone);
+    }
+    if(playbackAborted) { URL.revokeObjectURL(url); return; }
+    document.getElementById('audioStatus').textContent = `Wird vorgelesen … Abschnitt ${utterIndex+1} von ${ch.text.length}`;
+    await new Promise((resolve) => {
+      const audio = new Audio();
+      audio.preload = 'auto';
+      audio.src = url;
+      currentAudioEl = audio;
+      audio.onended = () => { URL.revokeObjectURL(url); currentAudioEl = null; resolve(); };
+      audio.onerror = () => {
+        URL.revokeObjectURL(url);
+        currentAudioEl = null;
+        resolve();
+      };
+      audio.play().catch(() => {
+        URL.revokeObjectURL(url);
+        currentAudioEl = null;
+        document.getElementById('audioStatus').textContent = 'Audio konnte nicht gestartet werden. Tippe erneut auf „Vorlesen“ und erlaube die Audio-Wiedergabe.';
+        resolve();
+      });
+    });
+  }
+  completed.add(i);
+  document.getElementById('audioStatus').textContent = 'Kapitel beendet';
+  document.getElementById('playBtn').textContent = '▶ Vorlesen';
+  document.getElementById('progressFill').style.width = '100%';
+  buildDots();
+  if(onDone) onDone();
+}
+
+function speakChapterBrowser(i, onDone){
+  if(!speechSupported) return;
+  const ch = chapters[i];
+  const voices = synth.getVoices();
+  const chosenVoice = voices.find(v => v.voiceURI === selectedVoiceURI) || null;
+  currentUtterances = ch.text.map(p => {
+    const u = new SpeechSynthesisUtterance(p);
+    u.lang = 'de-DE';
+    u.rate = speechRate;
+    if(chosenVoice) u.voice = chosenVoice;
+    return u;
+  });
+  utterIndex = 0;
+  document.getElementById('audioStatus').textContent = 'Wird vorgelesen …';
+  document.getElementById('playBtn').textContent = '⏸ Läuft';
+  updateProgress();
+
+  function speakNext(){
+    if(playbackAborted) return;
+    if(utterIndex >= currentUtterances.length){
+      completed.add(i);
+      document.getElementById('audioStatus').textContent = 'Kapitel beendet';
+      document.getElementById('playBtn').textContent = '▶ Vorlesen';
+      document.getElementById('progressFill').style.width = '100%';
+      buildDots();
+      if(onDone) onDone();
+      return;
+    }
+    const u = currentUtterances[utterIndex];
+    u.onend = () => { utterIndex++; updateProgress(); speakNext(); };
+    u.onerror = () => { utterIndex++; speakNext(); };
+    synth.speak(u);
+  }
+  speakNext();
+}
+
+function speakChapter(i, onDone){
+  stopSpeech();
+  playbackAborted = false;
+  if(premiumEnabled && apiKey){
+    speakChapterPremium(i, onDone);
+  } else if(speechSupported){
+    speakChapterBrowser(i, onDone);
+  } else {
+    document.getElementById('audioStatus').textContent = 'Bitte Premium-Stimme aktivieren und API-Schlüssel eingeben (⚙)';
+    settingsPanel.classList.add('open');
+  }
+}
+
+function updateProgress(){
+  const total = (premiumEnabled && apiKey) ? chapters[current].text.length : currentUtterances.length;
+  const pct = Math.round((utterIndex / total) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+}
+
+function stopSpeech(){
+  playbackAborted = true;
+  if(speechSupported) synth.cancel();
+  if(currentAudioEl){ currentAudioEl.pause(); currentAudioEl = null; }
+  document.getElementById('playBtn').textContent = '▶ Vorlesen';
+  document.getElementById('audioStatus').textContent = 'Bereit';
+  document.getElementById('progressFill').style.width = '0%';
+}
+
+document.getElementById('playBtn').addEventListener('click', () => {
+  const isSpeaking = (speechSupported && synth.speaking) || (currentAudioEl && !currentAudioEl.paused);
+  if(isSpeaking){
+    stopSpeech();
+  } else {
+    speakChapter(current);
+  }
+});
+document.getElementById('stopBtn').addEventListener('click', stopSpeech);
+
+document.getElementById('prevBtn').addEventListener('click', () => { if(current>0) openChapter(current-1); });
+document.getElementById('nextBtn').addEventListener('click', () => { if(current<chapters.length-1) openChapter(current+1); });
+document.getElementById('homeBtn').addEventListener('click', goHome);
+
+document.getElementById('startAllBtn').addEventListener('click', () => {
+  isPlayingAll = true;
+  openChapter(0);
+  playAllFrom(0);
+});
+
+function playAllFrom(i){
+  if(i >= chapters.length || !isPlayingAll) { isPlayingAll = false; return; }
+  current = i;
+  fillReader(i);
+  homeView.style.display = 'none';
+  readerView.style.display = 'block';
+  speakChapter(i, () => {
+    if(isPlayingAll) playAllFrom(i+1);
+  });
+}
+
+document.getElementById('resetBtn').addEventListener('click', () => {
+  completed = new Set();
+  buildGrid();
+});
+
+document.addEventListener('keydown', (e) => {
+  if(readerView.style.display === 'block'){
+    if(e.key === 'ArrowRight' && current < chapters.length-1) openChapter(current+1);
+    if(e.key === 'ArrowLeft' && current > 0) openChapter(current-1);
+    if(e.key === 'Escape') goHome();
+    if(e.key === ' '){ e.preventDefault(); document.getElementById('playBtn').click(); }
+  }
+});
+
+buildGrid();
+</script>
+</body>
+</html>
